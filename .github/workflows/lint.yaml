@@ -1,0 +1,28 @@
+name: Lint Code Base
+
+on:
+  workflow_call:
+  workflow_dispatch:
+  pull_request:
+    paths:
+    - '**.yaml'
+    - '!.github/**'
+
+jobs:
+  lint:
+    name: Lint YAML
+    runs-on: ubuntu-latest
+    container:
+      image: alpine:3.19
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Install yamllint
+      run: apk add yamllint
+
+    - name: List files to lint
+      run: yamllint --list-files .
+
+    - name: Run linter
+      run: yamllint --strict --format github .
