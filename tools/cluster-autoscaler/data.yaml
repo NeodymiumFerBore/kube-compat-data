@@ -1,0 +1,8 @@
+home: https://github.com/kubernetes/autoscaler
+sources: https://github.com/kubernetes/autoscaler
+compat_source: null
+compat_matrix:
+- kube_vers: v1.23
+  versions:
+    min: v1.22
+    max: v1.24

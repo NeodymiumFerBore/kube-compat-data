@@ -1,0 +1,24 @@
+home: https://argoproj.github.io/cd/
+sources: https://github.com/argoproj/argo-cd
+compat_source: https://argo-cd.readthedocs.io/en/latest/operator-manual/installation/#tested-versions
+compat_matrix:
+- kube_vers: v1.22
+  versions:
+    min: "2.5"
+    max: "2.6"
+- kube_vers: v1.23
+  versions:
+    min: "2.5"
+    max: "2.7"
+- kube_vers: v1.24
+  versions:
+    min: "2.5"
+    max: "2.7"
+- kube_vers: v1.25
+  versions:
+    min: "2.6"
+    max: "2.7"
+- kube_vers: v1.26
+  versions:
+    min: "2.6"
+    max: "2.7"

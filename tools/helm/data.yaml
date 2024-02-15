@@ -1,0 +1,12 @@
+home: https://github.com/kubernetes/autoscaler
+sources: https://github.com/kubernetes/autoscaler
+compat_source: https://helm.sh/docs/topics/version_skew/
+compat_matrix:
+- kube_vers: v1.22
+  versions:
+    min: v3.7
+    max: v3.10
+- kube_vers: v1.23
+  versions:
+    min: v3.8
+    max: v3.11
