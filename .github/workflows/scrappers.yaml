@@ -15,6 +15,7 @@ jobs:
       with:
         python-version: '3.11'
         cache: 'pip'
+    - run: pip install -r ./scripts/scrappers/requirements.txt
 
   scrappers:
     needs: setup
@@ -31,7 +32,7 @@ jobs:
         cache: 'pip'
 
     - name: Execute scrapper
-      run: python scripts/scrappers/${{ matrix.tool }}.py > tools/${{ matrix.tool }}/data.yaml
+      run: python ./scripts/scrappers/${{ matrix.tool }}.py > ./tools/${{ matrix.tool }}/data.yaml
 
     - name: Create or update PR
       uses: peter-evans/create-pull-request@v4
