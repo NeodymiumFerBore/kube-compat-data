@@ -1,0 +1,44 @@
+on:
+  workflow_dispatch:
+  schedule:
+  - cron: '0 19 */2 * *'
+
+jobs:
+  # Avoid spamming pypi, download requirements only once
+  setup:
+    runs_on: ubuntu-latest
+    container:
+      image: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+        cache: 'pip'
+
+  scrappers:
+    needs: setup
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        tool: [helm]
+
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+        cache: 'pip'
+
+    - name: Execute scrapper
+      run: python scripts/scrappers/${{ matrix.tool }}.py > tools/${{ matrix.tool }}/data.yaml
+
+    - name: Create or update PR
+      uses: peter-evans/create-pull-request@v4
+      with:
+        title: "${{ matrix.tool }} - Update"
+        body: "Updated on ${{ github.sha }}"
+        branch: scrapper/${{ matrix.tool }}/data-update
+        commit-message: "Update for tool ${{ matrix.tool }}"
+        labels: update
+        delete-branch: true
