@@ -6,19 +6,7 @@ on:
   - cron: '0 19 */2 * *'
 
 jobs:
-  # Avoid spamming pypi, download requirements only once
-  setup:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-python@v5
-      with:
-        python-version: '3.11'
-        cache: 'pip'
-    - run: pip install -r ./scripts/scrappers/requirements.txt
-
   scrappers:
-    needs: setup
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -30,6 +18,7 @@ jobs:
       with:
         python-version: '3.11'
         cache: 'pip'
+    - run: pip install -r ./scripts/scrappers/requirements.txt
 
     - name: Execute scrapper
       run: python ./scripts/scrappers/${{ matrix.tool }}.py > ./tools/${{ matrix.tool }}/data.yaml
