@@ -8,9 +8,7 @@ on:
 jobs:
   # Avoid spamming pypi, download requirements only once
   setup:
-    runs_on: ubuntu-latest
-    container:
-      image: ubuntu-latest
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-python@v5
