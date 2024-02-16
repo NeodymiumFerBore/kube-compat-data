@@ -3,11 +3,16 @@ import requests, yaml
 from bs4 import BeautifulSoup
 from packaging import version
 
+from __utils import patch_tool_data
+
 # Do not retrieve info for kube < v1.19
 min_limit = "1.19.0"
-url = "https://helm.sh/docs/topics/version_skew/"
 
-page = requests.get(url)
+home = "https://github.com/kubernetes/autoscaler"
+sources = "https://github.com/kubernetes/autoscaler"
+compat_source = "https://helm.sh/docs/topics/version_skew/"
+
+page = requests.get(compat_source)
 soup = BeautifulSoup(page.content, "html.parser")
 
 entries = soup.find(id="helm").find("table").find("tbody").find_all("tr")
