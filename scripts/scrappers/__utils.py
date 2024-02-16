@@ -15,7 +15,7 @@ from pydantic_core._pydantic_core import ValidationError
 def dump_tool_data(tool_name: str, data: ToolData) -> None:
   try:
     ToolData(**data)  # Validate directly using the model
-    print(yaml.dump(data, indent=2, sort_keys=False))
+    print(yaml.dump(data, indent=2, sort_keys=False), end="")
   except ValidationError as e:
     print(f"Validation error for tool '{tool_name}': {str(e).splitlines()[0]}\n")
     raise e
