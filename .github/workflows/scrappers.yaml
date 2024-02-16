@@ -1,3 +1,5 @@
+name: Execute scrappers
+
 on:
   workflow_dispatch:
   schedule:
