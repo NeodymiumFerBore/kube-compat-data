@@ -1,25 +1,17 @@
 name: Execute scrappers
 
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: write
+  pull-requests: write
+
 on:
   workflow_dispatch:
   schedule:
   - cron: '0 19 */2 * *'
 
 jobs:
-  # Avoid spamming pypi, download requirements only once
-  setup:
-    runs_on: ubuntu-latest
-    container:
-      image: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-python@v5
-      with:
-        python-version: '3.11'
-        cache: 'pip'
-
   scrappers:
-    needs: setup
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -31,13 +23,15 @@ jobs:
       with:
         python-version: '3.11'
         cache: 'pip'
+    - run: pip install -r ./scripts/scrappers/requirements.txt
 
     - name: Execute scrapper
-      run: python scripts/scrappers/${{ matrix.tool }}.py > tools/${{ matrix.tool }}/data.yaml
+      run: python ./scripts/scrappers/${{ matrix.tool }}.py > ./tools/${{ matrix.tool }}/data.yaml
 
     - name: Create or update PR
       uses: peter-evans/create-pull-request@v4
       with:
+        token: ${{ secrets.GITHUB_TOKEN }}
         title: "${{ matrix.tool }} - Update"
         body: "Updated on ${{ github.sha }}"
         branch: scrapper/${{ matrix.tool }}/data-update
