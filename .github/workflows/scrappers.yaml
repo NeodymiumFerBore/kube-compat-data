@@ -1,5 +1,10 @@
 name: Execute scrappers
 
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: write
+  pull-requests: write
+
 on:
   workflow_dispatch:
   schedule:
@@ -26,6 +31,7 @@ jobs:
     - name: Create or update PR
       uses: peter-evans/create-pull-request@v4
       with:
+        token: ${{ secrets.GITHUB_TOKEN }}
         title: "${{ matrix.tool }} - Update"
         body: "Updated on ${{ github.sha }}"
         branch: scrapper/${{ matrix.tool }}/data-update
