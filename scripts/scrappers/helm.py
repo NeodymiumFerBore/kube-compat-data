@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
-import requests, yaml
+import requests
 from bs4 import BeautifulSoup
 from packaging import version
 
-from __utils import patch_tool_data
+from __utils import dump_tool_data
 
 # Do not retrieve info for kube < v1.19
 min_limit = "1.19.0"
 
-home = "https://github.com/kubernetes/autoscaler"
-sources = "https://github.com/kubernetes/autoscaler"
+home = "https://helm.sh/"
+sources = "https://github.com/helm/helm"
 compat_source = "https://helm.sh/docs/topics/version_skew/"
 
 page = requests.get(compat_source)
@@ -37,7 +37,7 @@ for entry in entries:
 #     min: v3.7
 #     max: v3.10
 
-kube_versions = sorted(set([d[k] for d in compat_sort_by_helm for k in ["kube_min", "kube_max"]]), key=lambda v: version.parse(v))
+kube_versions = sorted(set([d[k] for d in compat_sort_by_helm for k in ["kube_min", "kube_max"]]), key=lambda v: version.parse(v), reverse=True)
 
 compat_data = []
 for kube_ver in kube_versions:
@@ -55,8 +55,12 @@ for kube_ver in kube_versions:
     }
   })
 
-# The compat table is sorted from latest to oldest, so we can just iterate over it
 if min_limit:
   compat_data = [d for d in compat_data if version.parse(d["kube_vers"]) >= version.parse(min_limit)]
 
-print(yaml.dump({"compat_matrix": compat_data}, indent=2))
+dump_tool_data("helm", {
+  "home": home,
+  "sources": sources,
+  "compat_source": compat_source,
+  "compat_matrix": compat_data
+})

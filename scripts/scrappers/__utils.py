@@ -12,14 +12,10 @@ from pydantic_core._pydantic_core import ValidationError
 # Assert success (need to add homes, sources, compat_source)
 #check("toto", {"compat_matrix": [{"kube_vers": "1", "versions": {"min": "1", "max": "2"}}]})
 
-def patch_tool_data(tool_name: str, data: ToolData) -> None:
+def dump_tool_data(tool_name: str, data: ToolData) -> None:
   try:
     ToolData(**data)  # Validate directly using the model
+    print(yaml.dump(data, indent=2, sort_keys=False))
   except ValidationError as e:
     print(f"Validation error for tool '{tool_name}': {str(e).splitlines()[0]}\n")
     raise e
-
-  # Overwrite {repo_root}/tools/{tool_name}/data.yaml
-  print(yaml.dump(data, indent=2))
-
-  # Then open a PR
