@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        tool: [helm, cluster-autoscaler]
+        tool: [helm, cluster-autoscaler, karpenter]
 
     steps:
     - uses: actions/checkout@v3
