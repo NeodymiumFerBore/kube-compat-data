@@ -1,0 +1,40 @@
+home: https://karpenter.sh/
+sources: https://github.com/aws/karpenter-provider-aws
+compat_source: https://raw.githubusercontent.com/aws/karpenter-provider-aws/main/hack/docs/compatibility-karpenter.yaml
+compat_matrix:
+- kube_vers: v1.21
+  versions:
+    min: 0.21.x
+    max: 0.27.x
+- kube_vers: v1.22
+  versions:
+    min: 0.21.x
+    max: 0.27.x
+- kube_vers: v1.23
+  versions:
+    min: 0.21.x
+    max: 0.36.0
+- kube_vers: v1.24
+  versions:
+    min: 0.21.x
+    max: 0.36.0
+- kube_vers: v1.25
+  versions:
+    min: 0.25.x
+    max: 0.36.0
+- kube_vers: v1.26
+  versions:
+    min: 0.28.x
+    max: 0.36.0
+- kube_vers: v1.27
+  versions:
+    min: 0.28.x
+    max: 0.36.0
+- kube_vers: v1.28
+  versions:
+    min: 0.31.x
+    max: 0.36.0
+- kube_vers: v1.29
+  versions:
+    min: 0.34.x
+    max: 0.36.0
